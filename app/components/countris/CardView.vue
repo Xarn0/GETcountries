@@ -13,17 +13,22 @@ defineProps({
 </script>
 
 <template>
-  <div class="cardview">
-    <img
-      class="image"
-      :src="src"
-      alt=""
-    />
-    <div>Страна {{ name }} ({{ nameRussian }})</div>
-    <div>Столица {{ capital }}</div>
-    <div>Население {{ population }}</div>
-    <div>Площадь {{ area }} км<sup>2</sup></div>
-  </div>
+  <NuxtLink
+    :to="`/${name}`"
+    class="link"
+  >
+    <div class="cardview">
+      <img
+        class="image"
+        :src="src"
+        alt=""
+      />
+      <div>Страна {{ name }} ({{ nameRussian }})</div>
+      <div>Столица {{ capital }}</div>
+      <div>Население {{ population }}</div>
+      <div>Площадь {{ area }} км<sup>2</sup></div>
+    </div></NuxtLink
+  >
 </template>
 
 <style lang="scss">
@@ -39,7 +44,7 @@ defineProps({
 .cardview{
     border: 1px solid #000;
     padding: 10px;
-    width: 15%;
+
     border-radius:10px;
     opacity: 0.9;
     margin: 5px;
@@ -48,6 +53,12 @@ defineProps({
     cursor: pointer;
     transform: scale(0.8);
     transition: opacity 0.3s ease-in-out,transform 1s;
+}
+.link{
+    text-decoration: none;
+    color: #000;
+    display: block;
+    width: 15%;
 }
 .cardview:hover{
     opacity: 1;

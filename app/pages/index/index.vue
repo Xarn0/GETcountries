@@ -1,21 +1,33 @@
 <script setup lang="ts">
-import type CardViewVue from '~/components/countris/CardView.vue'
 
+//  type CardViewVue = {
+//    name: string,
+//    capital: string,
+//    population: number,
+//    area: number,
+//    src: string,
+//    nameRussian: string
 
-const data = ref()
-
-onMounted(async () => {
-  try {
-    const res = await fetch('https://restcountries.com/v3.1/independent?status=true')
-    data.value = await res.json()
-  } catch (error) {
-    console.error(error)
+//  }
+interface Country {
+  cca3: string
+  name: { common: string },
+  population: number,
+  area: number,
+  flags: { svg: string },
+  capital: string[],
+  translations: {
+    rus: {
+      official: string
+    }
   }
-})
+  // добавь любые другие поля при необходимости
+}
+const { data } = await useFetch<Country[]>('/api/countries')
 </script>
 
 <template>
-  <p v-if="data">
+  <div v-if="data">
     <!-- <span style="color: #943;">{{data[0].borders.length}}</span> стран рядом
     {{ data[0].borders }}
     <br></br>
@@ -51,19 +63,19 @@ onMounted(async () => {
     <span> индккс всемирного банка {{data[0].gini}} </span>
     <span> географические размеры {{data[0].area}} км<sup>2</sup></span>
         <br></br> -->
-        <div class="container">
-    <CountrisCardView
-      v-for="value in data"
-      :key="value.cca3"
-      :area="value.area"
-      :name="value.name.common"
-      :src="value.flags.svg"
-      :nameRussian="value.translations.rus.official"
-      :capital="value.capital[0]"
-      :population="value.population"
-    ></CountrisCardView></div>
-    <!-- <CountrisCardView></CountrisCardView> -->
-  </p>
+    <div class="container">
+      <CountrisCardView
+        v-for="value in data"
+        :key="value.cca3"
+        :area="value.area"
+        :name="value.name.common"
+        :src="value.flags.svg"
+        :nameRussian="value.translations.rus.official"
+        :capital="value.capital[0]"
+        :population="value.population"
+      ></CountrisCardView>
+    </div>
+  </div>
 </template>
 
 <style lang="scss">
@@ -74,4 +86,5 @@ h1{
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-}</style>
+}
+</style>
