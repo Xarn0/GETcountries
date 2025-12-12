@@ -1,0 +1,61 @@
+<script setup lang="ts">
+
+const data = ref()
+
+onMounted(async () => {
+  try {
+    const res = await fetch('https://restcountries.com/v3.1/name/russian')
+    data.value = await res.json()
+  } catch (error) {
+    console.error(error)
+  }
+})
+</script>
+
+<template>
+
+  <p v-if="data">
+    <span style="color: #943;">{{data[0].borders.length}}</span> стран рядом
+    {{ data[0].borders }}
+    <br></br>
+    <span style="color: #943;">{{data[0].population}}</span> жителей
+    <br></br>
+    <span style="color: #943;">{{data[0].region}}</span>
+    <br></br>
+    <span style="color: #943;">{{data[0].capital[0]}} столица</span>
+    <br></br>
+    <span>{{data[0].name.common}} общее название</span>
+    <br></br>
+    <span style="color: #943;">{{data[0].flags.svg}}</span>
+    <br></br>
+    <span>{{data[0].tld}} домена</span>
+    <br></br>
+    <span>{{data[0].idd}} телефоны</span>
+    <br></br>
+    <span>машины {{data[0].car}} </span>
+    <br></br>
+    <span>недели начинаются с {{data[0].startOfWeek}} </span>
+    <br></br>
+    <span>монеты {{data[0].currencies}} </span>
+    <br></br>
+    <span>языки {{data[0].languages}} </span>
+    <br></br>
+    <span>время {{data[0].timezones}} </span>
+    <br></br>
+    <span>Выход к морю {{!data[0].landlocked}} </span>
+
+        <br></br>
+    <span>статус членства ООН {{data[0].unMember}} </span>
+        <br></br>
+    <span> индккс всемирного банка {{data[0].gini}} </span>
+        <br></br>
+    <span> географические размеры {{data[0].area}} км<sup>2</sup></span>
+        <br></br>
+  </p>
+</template>
+
+<style lang="scss">
+h1{
+  color: red
+}
+</style>
