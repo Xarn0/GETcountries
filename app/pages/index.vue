@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import type CardViewVue from '~/components/countris/CardView.vue'
+
 
 const data = ref()
 
 onMounted(async () => {
   try {
-    const res = await fetch('https://restcountries.com/v3.1/name/russian')
+    const res = await fetch('https://restcountries.com/v3.1/independent?status=true')
     data.value = await res.json()
   } catch (error) {
     console.error(error)
@@ -13,9 +15,8 @@ onMounted(async () => {
 </script>
 
 <template>
-
   <p v-if="data">
-    <span style="color: #943;">{{data[0].borders.length}}</span> стран рядом
+    <!-- <span style="color: #943;">{{data[0].borders.length}}</span> стран рядом
     {{ data[0].borders }}
     <br></br>
     <span style="color: #943;">{{data[0].population}}</span> жителей
@@ -27,8 +28,8 @@ onMounted(async () => {
     <span>{{data[0].name.common}} общее название</span>
     <br></br>
     <span style="color: #943;">{{data[0].flags.svg}}</span>
-    <br></br>
-    <span>{{data[0].tld}} домена</span>
+    <br></br> -->
+    <!-- <span>{{data[0].tld}} домена</span>
     <br></br>
     <span>{{data[0].idd}} телефоны</span>
     <br></br>
@@ -48,9 +49,20 @@ onMounted(async () => {
     <span>статус членства ООН {{data[0].unMember}} </span>
         <br></br>
     <span> индккс всемирного банка {{data[0].gini}} </span>
-        <br></br>
     <span> географические размеры {{data[0].area}} км<sup>2</sup></span>
-        <br></br>
+        <br></br> -->
+        <div class="container">
+    <CountrisCardView
+      v-for="value in data"
+      :key="value.cca3"
+      :area="value.area"
+      :name="value.name.common"
+      :src="value.flags.svg"
+      :nameRussian="value.translations.rus.official"
+      :capital="value.capital[0]"
+      :population="value.population"
+    ></CountrisCardView></div>
+    <!-- <CountrisCardView></CountrisCardView> -->
   </p>
 </template>
 
@@ -58,4 +70,8 @@ onMounted(async () => {
 h1{
   color: red
 }
-</style>
+.container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}</style>
